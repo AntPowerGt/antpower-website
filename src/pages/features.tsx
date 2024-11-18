@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowRight, Battery, Zap, Shield } from 'lucide-react'
+import { ArrowRight, ChargingPile, Zap, Gauge, Shield, Wrench } from 'lucide-react'
 import Layout from '@/components/layout'
 import Link from 'next/link'
 

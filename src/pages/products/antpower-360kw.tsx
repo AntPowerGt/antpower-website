@@ -1,22 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Download, Mail } from 'lucide-react'
+import Image from 'next/image'
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { ArrowRight } from "lucide-react"
 import Layout from '@/components/layout'
+import Link from 'next/link'
 
 const productImages = [
   {
@@ -188,12 +181,12 @@ export default function ProductPage() {
             className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button className="w-full sm:w-auto" size="lg">
-              <Download className="mr-2 h-4 w-4" />
+              <ArrowRight className="mr-2 h-4 w-4" />
               Download Datasheet
             </Button>
             <Link href="/contact">
               <Button variant="secondary" className="w-full sm:w-auto" size="lg">
-                <Mail className="mr-2 h-4 w-4" />
+                <ArrowRight className="mr-2 h-4 w-4" />
                 Contact Sales
               </Button>
             </Link>

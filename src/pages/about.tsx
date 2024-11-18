@@ -42,8 +42,9 @@ export default function AboutUs() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-gray-600 mb-6">
-                We&apos;re dedicated to revolutionizing the world&apos;s charging infrastructure, making it more efficient, sustainable, and accessible for everyone&apos;s benefit.
+                We're dedicated to revolutionizing the world's charging infrastructure, making it more efficient, sustainable, and accessible for everyone's benefit.
               </p>
+              <p className="text-gray-600 mb-4">AntPower's mission is to accelerate the world's transition to sustainable energy through innovative EV charging solutions.</p>
             </CardContent>
           </Card>
           <Card className="bg-[#0a3d1f] border-green-600">
@@ -52,8 +53,9 @@ export default function AboutUs() {
             </CardHeader>
             <CardContent>
               <p className="text-lg text-gray-600 mb-6">
-                AntPower&apos;s commitment to excellence drives our innovation.
+                AntPower's commitment to excellence drives us to continuously improve and innovate in the EV charging space.
               </p>
+              <p className="text-gray-600">AntPower's commitment to excellence drives us to continuously improve and innovate in the EV charging space.</p>
             </CardContent>
           </Card>
         </div>
@@ -142,10 +144,10 @@ export default function AboutUs() {
         <div className="mt-12 text-center">
           <h2 className="text-2xl font-bold mb-4 text-green-100">Join Us in Shaping the Future of EV Charging</h2>
           <p className="text-lg text-gray-600 mb-6">
-            AntPower&apos;s vision extends beyond conventional boundaries.
+            AntPower's vision extends beyond conventional boundaries.
           </p>
           <p className="text-lg text-gray-600">
-            Let&apos;s shape the future of charging together.
+            Let's shape the future of charging together.
           </p>
           <Button className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white">
             <Link href="/contact" className="flex items-center">

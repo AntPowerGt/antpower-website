@@ -1,15 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import Link from "next/link"
-import Image from "next/image"
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Battery, Bolt, Clock, Download, Gauge, LineChart, Shield, Thermometer, ChevronRight, Star } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowRight, ChargingPile, Zap } from "lucide-react"
 import Layout from '@/components/layout'
+import Link from 'next/link'
 
 const productImages = [
   {
@@ -34,22 +31,22 @@ const productImages = [
 
 const features = [
   {
-    icon: <Bolt className="w-6 h-6" />,
+    icon: <Zap className="w-6 h-6" />,
     title: "Fast Charging",
     description: "Up to 350kW DC charging capability"
   },
   {
-    icon: <Shield className="w-6 h-6" />,
+    icon: <ChargingPile className="w-6 h-6" />,
     title: "Advanced Safety",
     description: "Multiple safety protocols and certifications"
   },
   {
-    icon: <LineChart className="w-6 h-6" />,
+    icon: <Zap className="w-6 h-6" />,
     title: "Smart Management",
     description: "Real-time monitoring and power optimization"
   },
   {
-    icon: <Gauge className="w-6 h-6" />,
+    icon: <ChargingPile className="w-6 h-6" />,
     title: "High Efficiency",
     description: "98% charging efficiency rating"
   }
@@ -120,8 +117,8 @@ export default function LandingPage() {
                 Powering the Future of
                 <span className="text-green-400"> Electric Mobility</span>
               </h1>
-              <p className="text-xl text-green-100 mb-8">
-                Advanced EV charging solutions for a sustainable tomorrow
+              <p className="text-lg text-gray-600 mb-8">
+                Don&apos;t miss out on the future of EV charging. Join us in revolutionizing the industry.
               </p>
               <div className="flex justify-center gap-4">
                 <Button asChild size="lg" className="bg-green-600 hover:bg-green-500">
@@ -154,10 +151,9 @@ export default function LandingPage() {
                 >
                   <div className="relative rounded-lg overflow-hidden bg-green-900/20 p-6">
                     <div className="aspect-square relative mb-4">
-                      <Image
+                      <img
                         src={product.src}
                         alt={product.alt}
-                        fill
                         className="object-contain transform group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
@@ -234,7 +230,7 @@ export default function LandingPage() {
                   <CardContent className="p-6">
                     <div className="flex gap-1 mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-green-500 text-green-500" />
+                        <div key={i} className="w-5 h-5 bg-green-500 rounded-full" />
                       ))}
                     </div>
                     <p className="text-green-300 mb-4">{testimonial.content}</p>
@@ -265,7 +261,7 @@ export default function LandingPage() {
             <Link href="/products">
               <Button size="lg" className="bg-green-500 hover:bg-green-400 text-green-900">
                 View Products
-                <ChevronRight className="ml-2 w-4 h-4" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </Link>
             <Link href="/contact">

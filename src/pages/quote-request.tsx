@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import Link from "next/link"
-import Image from "next/image"
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight } from "lucide-react"
 
 const steps = [
   { id: 'contact', title: 'Contact Information' },
