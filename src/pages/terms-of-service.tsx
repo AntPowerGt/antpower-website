@@ -14,18 +14,18 @@ export default function TermsOfService() {
           </CardHeader>
           <CardContent className="prose prose-invert max-w-none">
             <h2 className="text-2xl font-semibold text-green-300 mb-4">1. Acceptance of Terms</h2>
-            <p className="text-green-100 mb-4">
-              By accessing and using AntPower's services, you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+            <p className="text-lg text-gray-600 mb-6">
+              By accessing and using AntPower&apos;s website and services, you agree to these terms.
             </p>
 
             <h2 className="text-2xl font-semibold text-green-300 mb-4">2. Use of Services</h2>
-            <p className="text-green-100 mb-4">
-              You agree to use AntPower's charging stations and related services only for lawful purposes and in accordance with these Terms of Service. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+            <p className="text-lg text-gray-600 mb-6">
+              AntPower&apos;s intellectual property is protected by law.
             </p>
 
             <h2 className="text-2xl font-semibold text-green-300 mb-4">3. Payment and Billing</h2>
-            <p className="text-green-100 mb-4">
-              Charges for the use of AntPower's services will be billed to your account or payment method on file. You agree to pay all fees and charges incurred in connection with your use of our services.
+            <p className="text-lg text-gray-600 mb-6">
+              AntPower&apos;s services are provided &quot;as is&quot; without warranty.
             </p>
 
             <h2 className="text-2xl font-semibold text-green-300 mb-4">4. Limitation of Liability</h2>
