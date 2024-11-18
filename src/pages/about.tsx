@@ -41,8 +41,8 @@ export default function AboutUs() {
               <CardTitle className="text-2xl text-green-100">Our Mission</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-green-200">
-                At AntPower, we're on a mission to accelerate the world's transition to sustainable energy. We're committed to developing cutting-edge EV charging solutions that make electric mobility accessible, convenient, and efficient for everyone.
+              <p className="text-lg text-gray-600 mb-6">
+                We&apos;re dedicated to revolutionizing the world&apos;s charging infrastructure, making it more efficient, sustainable, and accessible for everyone&apos;s benefit.
               </p>
             </CardContent>
           </Card>
@@ -51,8 +51,8 @@ export default function AboutUs() {
               <CardTitle className="text-2xl text-green-100">Our Vision</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-green-200">
-                We envision a world where clean, electric transportation is the norm. Our goal is to build a global network of ultra-fast charging stations, powered by renewable energy, to support the rapid adoption of electric vehicles and contribute to a greener planet.
+              <p className="text-lg text-gray-600 mb-6">
+                AntPower&apos;s commitment to excellence drives our innovation.
               </p>
             </CardContent>
           </Card>
@@ -141,7 +141,12 @@ export default function AboutUs() {
 
         <div className="mt-12 text-center">
           <h2 className="text-2xl font-bold mb-4 text-green-100">Join Us in Shaping the Future of EV Charging</h2>
-          <p className="text-green-300 mb-6">We're always looking for talented individuals to join our team.</p>
+          <p className="text-lg text-gray-600 mb-6">
+            AntPower&apos;s vision extends beyond conventional boundaries.
+          </p>
+          <p className="text-lg text-gray-600">
+            Let&apos;s shape the future of charging together.
+          </p>
           <Button className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white">
             <Link href="/contact" className="flex items-center">
               View Career Opportunities

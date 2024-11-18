@@ -79,6 +79,9 @@ export default function ContactPage() {
             <Card className="bg-green-800/20 border-green-700">
               <CardContent className="p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  <p className="text-lg text-gray-600 mb-8">
+                    We&apos;d love to hear from you! Please fill out the form below and we&apos;ll get back to you as soon as possible.
+                  </p>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="firstName">First Name</Label>
@@ -164,7 +167,7 @@ export default function ContactPage() {
                       animate={{ opacity: 1, y: 0 }}
                       className="text-green-400 text-center"
                     >
-                      Thank you! We'll get back to you soon.
+                      Thank you! We&apos;ll get back to you soon.
                     </motion.p>
                   )}
                 </form>

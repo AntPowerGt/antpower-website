@@ -12,8 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
       )
       res.status(200).json({ message: 'Email sent successfully' })
-    } catch (error) {
-      res.status(500).json({ message: 'Error sending email' })
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' })
     }
   } else {
     res.setHeader('Allow', ['POST'])

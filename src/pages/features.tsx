@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowRight, Zap, Shield, Gauge, ThermometerSun, Waves, Power, Cable, Timer, Scale, Ruler, ShieldAlert, Wifi, CreditCard, BarChart, Smartphone } from 'lucide-react'
+import { ArrowRight, Battery, Zap, Shield } from 'lucide-react'
 import Layout from '@/components/layout'
 import Link from 'next/link'
 
@@ -14,27 +14,27 @@ const features = [
     category: 'Performance',
     items: [
       { icon: Zap, title: 'High Power Output', description: 'Deliver up to 720kW of charging power for rapid EV charging.' },
-      { icon: Timer, title: 'Fast Charging', description: 'Charge vehicles in minutes, not hours, with our advanced technology.' },
-      { icon: Gauge, title: 'Wide Output Range', description: 'Support various EV models with a voltage range of 150V-1000V.' },
-      { icon: Power, title: 'Multiple Connectors', description: 'Charge up to 8 vehicles simultaneously with our multi-port stations.' },
+      { icon: null, title: 'Fast Charging', description: 'Charge vehicles in minutes, not hours, with our advanced technology.' },
+      { icon: null, title: 'Wide Output Range', description: 'Support various EV models with a voltage range of 150V-1000V.' },
+      { icon: null, title: 'Multiple Connectors', description: 'Charge up to 8 vehicles simultaneously with our multi-port stations.' },
     ]
   },
   {
     category: 'Reliability',
     items: [
       { icon: Shield, title: 'Robust Protection', description: 'Comprehensive protection features ensure safe and reliable operation.' },
-      { icon: ThermometerSun, title: 'Wide Temperature Range', description: 'Operate efficiently in temperatures from -30°C to 70°C.' },
-      { icon: Waves, title: 'IP54 Rating', description: 'Weather-resistant design for outdoor installations.' },
-      { icon: Scale, title: 'Durable Construction', description: 'Built to withstand heavy use and harsh environments.' },
+      { icon: null, title: 'Wide Temperature Range', description: 'Operate efficiently in temperatures from -30°C to 70°C.' },
+      { icon: null, title: 'IP54 Rating', description: 'Weather-resistant design for outdoor installations.' },
+      { icon: null, title: 'Durable Construction', description: 'Built to withstand heavy use and harsh environments.' },
     ]
   },
   {
     category: 'Smart Technology',
     items: [
-      { icon: Wifi, title: 'Network Integration', description: 'Seamlessly connect to charging networks for remote management.' },
-      { icon: CreditCard, title: 'Payment Systems', description: 'Integrated payment solutions for easy and secure transactions.' },
-      { icon: BarChart, title: 'Load Management', description: 'Intelligent power distribution to optimize charging efficiency.' },
-      { icon: Smartphone, title: 'Mobile App Control', description: 'Monitor and control charging sessions from your smartphone.' },
+      { icon: null, title: 'Network Integration', description: 'Seamlessly connect to charging networks for remote management.' },
+      { icon: null, title: 'Payment Systems', description: 'Integrated payment solutions for easy and secure transactions.' },
+      { icon: null, title: 'Load Management', description: 'Intelligent power distribution to optimize charging efficiency.' },
+      { icon: null, title: 'Mobile App Control', description: 'Monitor and control charging sessions from your smartphone.' },
     ]
   }
 ]
@@ -72,7 +72,9 @@ export default function Features() {
                   >
                     <Card className="bg-green-800 border-green-700 h-full">
                       <CardHeader>
-                        <feature.icon className="h-10 w-10 text-green-400 mb-2" aria-hidden="true" />
+                        {feature.icon && (
+                          <feature.icon className="h-10 w-10 text-green-400 mb-2" aria-hidden="true" />
+                        )}
                         <CardTitle className="text-xl text-green-100">{feature.title}</CardTitle>
                       </CardHeader>
                       <CardContent>
