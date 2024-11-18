@@ -69,154 +69,154 @@ const safetyFeatures = [
 ]
 
 export default function ProductPage() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % productImages.length)
-  }
-
-  const previousImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + productImages.length) % productImages.length)
-  }
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
+  const [activeTab, setActiveTab] = useState<'features' | 'specs'>('features')
 
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen">
-        <main className="flex-1 py-8">
-          <div className="container mx-auto px-4 max-w-7xl">
-            <div className="grid gap-8 lg:grid-cols-2">
-              {/* Product Images */}
-              <div className="relative aspect-square bg-[#0a3d1f] rounded-2xl overflow-hidden">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentImageIndex}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center p-4"
-                  >
-                    <Image
-                      src={productImages[currentImageIndex].src}
-                      alt={productImages[currentImageIndex].alt}
-                      width={600}
-                      height={600}
-                      className="object-contain"
-                      priority
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                <button
-                  onClick={previousImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-colors"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft className="h-6 w-6" />
-                </button>
-                <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-colors"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </button>
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {productImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex ? 'bg-white w-4' : 'bg-white/50'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="py-12 px-4 sm:px-6 lg:px-8"
+      >
+        {/* Product Header */}
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-4xl lg:text-5xl font-bold mb-4">AntPower 720kW</h1>
+            <p className="text-xl text-green-300 mb-6">High-Power DC Charging Solution</p>
+            <Badge variant="secondary" className="bg-green-800/40 text-green-300 mb-8">
+              Premium Grade
+            </Badge>
+          </motion.div>
+
+          {/* Product Image Carousel */}
+          <div className="relative mb-16 rounded-2xl overflow-hidden bg-green-900/20 p-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeImageIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="aspect-[16/9] relative rounded-xl overflow-hidden"
+              >
+                <Image
+                  src={productImages[activeImageIndex].src}
+                  alt={productImages[activeImageIndex].alt}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
+            </AnimatePresence>
+            
+            {productImages.length > 1 && (
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2">
+                {productImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveImageIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === activeImageIndex ? 'bg-green-500' : 'bg-green-800'
+                    }`}
+                  />
+                ))}
               </div>
-
-              {/* Product Info */}
-              <div className="space-y-6">
-                <div>
-                  <Badge className="mb-4 bg-green-100 text-green-900 hover:bg-green-100">Ultra High Power</Badge>
-                  <h1 className="text-4xl font-bold text-green-100">AntPower 720kW Charging System</h1>
-                  <p className="mt-4 text-xl text-green-200">Ultimate High-Power Charging Solution</p>
-                </div>
-                <p className="text-green-200">
-                  The Antpower 720kW charging system is a powerhouse, designed for ultra-fast and reliable EV charging, 
-                  ideal for large-scale applications. Its split configurations of one-to-two or one-to-four terminals 
-                  ensure flexibility and efficiency, making it perfect for high-traffic charging locations.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button asChild size="lg" className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600">
-                    <Link href="/quote-request">
-                      <Mail className="mr-2 h-4 w-4" />
-                      Request Quote
-                    </Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="border-green-600 text-green-300 hover:bg-green-900/20">
-                    <Link href="/product-catalog.pdf" target="_blank" rel="noopener noreferrer">
-                      <Download className="mr-2 h-4 w-4" />
-                      Download Specs
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            {/* Key Features */}
-            <Card className="mt-12 bg-[#0a3d1f] border-green-600">
-              <CardHeader>
-                <CardTitle className="text-2xl text-green-100">Key Features</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {keyFeatures.map((feature, index) => (
-                    <li key={index} className="flex items-center text-green-200">
-                      <div className="h-2 w-2 rounded-full bg-green-500 mr-2" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-
-            {/* Specifications */}
-            <Card className="mt-8 bg-[#0a3d1f] border-green-600">
-              <CardHeader>
-                <CardTitle className="text-2xl text-green-100">Technical Specifications</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableBody>
-                    {specifications.map((spec) => (
-                      <TableRow key={spec.name} className="border-green-600">
-                        <TableCell className="font-medium text-green-200">{spec.name}</TableCell>
-                        <TableCell className="text-green-200">{spec.value}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-
-            {/* Safety Features */}
-            <Card className="mt-8 bg-[#0a3d1f] border-green-600">
-              <CardHeader>
-                <CardTitle className="text-2xl text-green-100">Safety Features</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {safetyFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-center text-green-200">
-                      <div className="h-2 w-2 rounded-full bg-green-500 mr-2" />
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            )}
           </div>
-        </main>
-      </div>
+
+          {/* Content Tabs */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex rounded-lg bg-green-900/20 p-1">
+              <button
+                onClick={() => setActiveTab('features')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'features' ? 'bg-green-800 text-green-100' : 'text-green-300'
+                }`}
+              >
+                Key Features
+              </button>
+              <button
+                onClick={() => setActiveTab('specs')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'specs' ? 'bg-green-800 text-green-100' : 'text-green-300'
+                }`}
+              >
+                Specifications
+              </button>
+            </div>
+          </div>
+
+          {/* Content */}
+          <AnimatePresence mode="wait">
+            {activeTab === 'features' ? (
+              <motion.div
+                key="features"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {keyFeatures.map((feature, index) => (
+                  <Card key={index} className="bg-green-800/20 border-green-700">
+                    <CardContent className="p-6">
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="text-green-100"
+                      >
+                        {feature}
+                      </motion.p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="specs"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <Card className="bg-green-800/20 border-green-700">
+                  <Table>
+                    <TableBody>
+                      {specifications.map((spec, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium text-green-300">{spec.name}</TableCell>
+                          <TableCell className="text-right text-green-100">{spec.value}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* CTA Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
+            <Button className="w-full sm:w-auto" size="lg">
+              <Download className="mr-2 h-4 w-4" />
+              Download Datasheet
+            </Button>
+            <Link href="/contact">
+              <Button variant="secondary" className="w-full sm:w-auto" size="lg">
+                <Mail className="mr-2 h-4 w-4" />
+                Contact Sales
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </motion.div>
     </Layout>
   )
 }

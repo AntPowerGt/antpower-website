@@ -1,309 +1,281 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from "next/link"
 import Image from "next/image"
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from 'framer-motion'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Battery, Bolt, Clock, Download, Gauge, LineChart, Shield, Thermometer, Menu } from 'lucide-react'
+import { ArrowRight, Battery, Bolt, Clock, Download, Gauge, LineChart, Shield, Thermometer, ChevronRight, Star } from 'lucide-react'
 import Layout from '@/components/layout'
 
 const productImages = [
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/P1.7-DX38YQ0KamKUFHl1Trsu1Z1FCtM4GG.png",
-    alt: "AntPower White Charger"
+    src: "/images/480kw.png",
+    alt: "AntPower 480kW Charger",
+    title: "AntPower 480kw",
+    description: "Advanced EV charging with smart power management"
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/9-UrpqAl6Ji2MOs9WIvns4BLHT308uLP.png",
-    alt: "AntPower Green Charger with Display"
+    src: "/images/360kw.png",
+    alt: "AntPower 360kW Charger",
+    title: "AntPower 360kw",
+    description: "Premium charging solution with interactive display"
   },
   {
-    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Antp-59X0ZE5lgXmG3fkQbUJsmh2uzHUr0r.png",
-    alt: "AntPower Green Charger"
+    src: "/images/720kw.png",
+    alt: "AntPower 720kW Charger",
+    title: "AntPower 720kw",
+    description: "Intelligent charging for the future"
+  }
+]
+
+const features = [
+  {
+    icon: <Bolt className="w-6 h-6" />,
+    title: "Fast Charging",
+    description: "Up to 350kW DC charging capability"
+  },
+  {
+    icon: <Shield className="w-6 h-6" />,
+    title: "Advanced Safety",
+    description: "Multiple safety protocols and certifications"
+  },
+  {
+    icon: <LineChart className="w-6 h-6" />,
+    title: "Smart Management",
+    description: "Real-time monitoring and power optimization"
+  },
+  {
+    icon: <Gauge className="w-6 h-6" />,
+    title: "High Efficiency",
+    description: "98% charging efficiency rating"
+  }
+]
+
+const testimonials = [
+  {
+    name: "John ",
+    role: "Fleet Manager",
+    company: "Green Transport Co.",
+    content: "AntPower chargers have revolutionized our fleet management. The reliability and speed are unmatched.",
+    rating: 5
+  },
+  {
+    name: "Sarah Johnson",
+    role: "Sustainability Director",
+    company: "EcoTech Solutions",
+    content: "The smart features and power management capabilities have exceeded our expectations.",
+    rating: 5
+  },
+  {
+    name: "Michael Chen",
+    role: "Operations Manager",
+    company: "Future Mobility Inc.",
+    content: "Outstanding product quality and exceptional customer support. Highly recommended!",
+    rating: 5
   }
 ]
 
 export default function LandingPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { scrollYProgress } = useScroll()
+  const heroRef = useRef(null)
+  const isHeroInView = useInView(heroRef)
+  
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8])
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % productImages.length)
-    }, 3000)
+    }, 5000)
     return () => clearInterval(timer)
   }, [])
 
   return (
     <Layout>
-      <div className="flex flex-col min-h-screen">
-        <motion.div 
-          className="fixed inset-0 pointer-events-none"
-          style={{ opacity, scale }}
+      <div className="relative min-h-screen gradient-bg">
+        {/* Animated Sunlight Effect */}
+        <div className="sunlight-effect" />
+
+        {/* Hero Section */}
+        <motion.section
+          className="relative pt-20 pb-16 md:pt-32 md:pb-24"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="absolute inset-0 bg-yellow-500 opacity-5 blur-3xl rounded-full w-[800px] h-[800px] -top-1/2 -left-1/2 animate-pulse"></div>
-          <div className="absolute inset-0 bg-yellow-500 opacity-5 blur-3xl rounded-full w-[600px] h-[600px] -bottom-1/4 -right-1/4 animate-pulse"></div>
-        </motion.div>
-        <main className="flex-1 w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-            <motion.div 
-              className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="text-center max-w-4xl mx-auto"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <Badge className="inline-flex bg-green-100 text-[#052612] mb-4 animate-pulse">Future-Ready Energy</Badge>
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-green-300 via-green-100 to-green-300">
-                    Transform Your Petrol Station into a Future-Ready Energy Hub
-                  </h1>
-                  <p className="max-w-[600px] text-green-200 md:text-xl">
-                    High-Power EV Charging Solutions from 360kW to 720kW. Designed for seamless integration with existing
-                    infrastructure.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button size="lg" className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white transition-all duration-300 shadow-lg hover:shadow-green-500/50 rounded-full">
-                    <Link href="/products">
-                      View Charging Solutions
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="lg" variant="outline" className="border-green-600 text-green-300 hover:bg-[#0a3d1f] transition-all duration-300 rounded-full">
-                    <Link href="/quote-request">
-                      Request Quote
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="relative w-full h-[600px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentImageIndex}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      alt={productImages[currentImageIndex].alt}
-                      className="mx-auto aspect-square overflow-hidden rounded-xl object-contain object-center"
-                      height={600}
-                      width={600}
-                      src={productImages[currentImageIndex].src}
-                      priority={currentImageIndex === 0}
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {productImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentImageIndex ? 'bg-green-300 w-4' : 'bg-green-600'
-                      }`}
-                      aria-label={`Show image ${index + 1}`}
-                    />
-                  ))}
-                </div>
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                Powering the Future of
+                <span className="text-green-400"> Electric Mobility</span>
+              </h1>
+              <p className="text-xl text-green-100 mb-8">
+                Advanced EV charging solutions for a sustainable tomorrow
+              </p>
+              <div className="flex justify-center gap-4">
+                <Button asChild size="lg" className="bg-green-600 hover:bg-green-500">
+                  <Link href="/products">Explore Products</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-900/20">
+                  <Link href="/contact">Contact Us</Link>
+                </Button>
               </div>
             </motion.div>
-          </section>
-          <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-[#0a3d1f] bg-opacity-50 backdrop-blur-md rounded-3xl my-8">
-            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-100">Key Benefits</h2>
-                  <p className="max-w-[900px] text-green-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Maximize your station's potential with our advanced EV charging solutions
-                  </p>
-                </div>
-              </div>
-              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                  { icon: LineChart, title: "Revenue Growth", description: "Create new revenue streams with high-power EV charging services" },
-                  { icon: Gauge, title: "Space Efficient", description: "Compact design integrates seamlessly with existing forecourt layout" },
-                  { icon: Bolt, title: "Smart Power", description: "Intelligent power distribution and remote management capabilities" },
-                  { icon: Shield, title: "Future-Proof", description: "Scalable solutions that grow with increasing EV charging demand" }
-                ].map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <Card className="bg-[#0d4d27] border-[#1a5f3c] shadow-lg hover:shadow-green-500/50 transition-all duration-300 group hover:-translate-y-2">
-                      <CardHeader>
-                        <feature.icon className="h-10 w-10 text-green-300 group-hover:scale-110 transition-transform duration-300" />
-                        <CardTitle className="text-green-100">{feature.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-sm text-green-200">{feature.description}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </section>
-          <section id="products" className="w-full py-12 md:py-24 lg:py-32 bg-[#0a3d1f] bg-opacity-50 backdrop-blur-md rounded-3xl my-8">
-            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-100">Product Range</h2>
-                  <p className="max-w-[900px] text-green-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Choose the perfect charging solution for your station
-                  </p>
-                </div>
-              </div>
-              <Tabs defaultValue="360kw" className="mt-8">
-                <TabsList className="grid w-full grid-cols-3 bg-[#1a5f3c] rounded-full p-1">
-                  {['360kw', '480kw', '720kw'].map((kw) => (
-                    <TabsTrigger key={kw} value={kw} className="data-[state=active]:bg-[#2a7f5c] rounded-full transition-all duration-300 text-green-100 hover:text-white">
-                      {kw.toUpperCase()} Series
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-                {['360kw', '480kw', '720kw'].map((kw) => (
-                  <TabsContent key={kw} value={kw} className="mt-4">
-                    <div className="grid gap-4 md:grid-cols-2">
-                      {[4, 6].map((ccs) => (
-                        <Card key={`${kw}-${ccs}`} className="bg-[#0d4d27] border-[#1a5f3c] shadow-lg group hover:shadow-green-500/50 transition-all duration-300">
-                          <CardHeader>
-                            <CardTitle className="text-green-100">{kw.toUpperCase()} - {ccs} CCS2</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="space-y-2 text-green-200">
-                              {[
-                                { icon: Battery, text: `${90 / (ccs / 4)}kW per gun average output` },
-                                { icon: Clock, text: "24/7 operation capability" },
-                                { icon: Thermometer, text: "-30°C to 70°C operating range" }
-                              ].map((item, index) => (
-                                <motion.div 
-                                  key={index}
-                                  className="flex items-center gap-2"
-                                  initial={{ opacity: 0, x: -20 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                                >
-                                  <item.icon className="h-4 w-4 text-green-300 group-hover:scale-110 transition-transform duration-300" />
-                                  <span>{item.text}</span>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </CardContent>
-                        </Card>
+          </div>
+        </motion.section>
+
+        {/* Product Showcase */}
+        <section className="py-16 md:py-24 relative overflow-hidden">
+          <div className="container mx-auto px-4">
+            <motion.div
+              className="grid md:grid-cols-3 gap-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              {productImages.map((product, index) => (
+                <motion.div
+                  key={product.title}
+                  className="relative group float-animation"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.2 + 0.6 }}
+                >
+                  <div className="relative rounded-lg overflow-hidden bg-green-900/20 p-6">
+                    <div className="aspect-square relative mb-4">
+                      <Image
+                        src={product.src}
+                        alt={product.alt}
+                        fill
+                        className="object-contain transform group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-2">{product.title}</h3>
+                    <p className="text-green-300">{product.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold mb-4">Advanced Features</h2>
+            <p className="text-green-300 max-w-2xl mx-auto">
+              Experience the next generation of EV charging technology with our innovative features
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="bg-green-800/20 border-green-700 hover:bg-green-800/30 transition-colors">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                    <p className="text-green-300">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-20 bg-green-800/20 -mx-6 lg:-mx-8 px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <p className="text-green-300 max-w-2xl mx-auto">
+              Trusted by leading companies worldwide
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="bg-green-800/20 border-green-700">
+                  <CardContent className="p-6">
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-green-500 text-green-500" />
                       ))}
                     </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
-            </div>
-          </section>
-          <section id="specifications" className="w-full py-12 md:py-24 lg:py-32 bg-[#0a3d1f] bg-opacity-50 backdrop-blur-md rounded-3xl my-8">
-            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-100">Technical Specifications</h2>
-                  <p className="max-w-[900px] text-green-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                    Industry-leading specifications for reliable charging performance
-                  </p>
-                </div>
-              </div>
-              <div className="mt-8 overflow-hidden rounded-2xl">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-[#1a5f3c] ">
-                      <TableHead className="text-green-100">Specification</TableHead>
-                      <TableHead className="text-green-100">Details</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {[
-                      { spec: "Input Voltage", details: "380Vac±15%" },
-                      { spec: "Power Factor", details: ">0.99" },
-                      { spec: "Output Voltage Range", details: "150V-1000V" },
-                      { spec: "Max Efficiency", details: ">95.0%" },
-                      { spec: "Protection Rating", details: "IP54/IP55" },
-                      { spec: "Operating Temperature", details: "-30°C to 70°C" }
-                    ].map((row) => (
-                      <TableRow key={row.spec} className="border-[#1a5f3c] hover:bg-[#1a5f3c]/50 transition-colors duration-200">
-                        <TableCell className="text-green-200 font-medium">{row.spec}</TableCell>
-                        <TableCell className="text-green-200">{row.details}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          </section>
-          <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-[#0a3d1f] bg-opacity-50 backdrop-blur-md rounded-3xl my-8">
-            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-                <div className="flex flex-col justify-center space-y-4">
-                  <div className="space-y-2">
-                    <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-100">Ready to Transform Your Station?</h2>
-                    <p className="max-w-[600px] text-green-200 md:text-xl">
-                      Get in touch with our experts to discuss your EV charging needs
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                    <Button size="lg" className="bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white transition-all duration-300 shadow-lg hover:shadow-green-500/50 rounded-full">
-                      <Link href="/contact">
-                        Contact Sales
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                    <Button size="lg" variant="outline" className="border-green-600 text-green-300 hover:bg-[#0d4d27] transition-all duration-300 rounded-full">
-                      <Link href="/specifications.pdf" target="_blank" rel="noopener noreferrer">
-                        Download Specifications
-                        <Download className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex flex-col space-y-4">
-                  <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-bold text-green-100">Documentation</h3>
-                      <p className="text-sm text-green-200">Access detailed product information and technical specifications</p>
+                    <p className="text-green-300 mb-4">{testimonial.content}</p>
+                    <div>
+                      <p className="font-semibold">{testimonial.name}</p>
+                      <p className="text-sm text-green-400">{testimonial.role}</p>
+                      <p className="text-sm text-green-400">{testimonial.company}</p>
                     </div>
-                    <div className="grid gap-2">
-                      {[
-                        { name: 'Product Catalog', href: '/product-catalog.pdf' },
-                        { name: 'Technical Documentation', href: '/technical-documentation.pdf' },
-                        { name: 'Installation Guide', href: '/installation-guide.pdf' }
-                      ].map((doc) => (
-                        <Button key={doc.name} variant="outline" className="w-full justify-start border-green-600 text-green-300 hover:bg-[#0d4d27] transition-all duration-300 group">
-                          <Link href={doc.href} target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                            <Download className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform duration-300" />
-                            {doc.name}
-                          </Link>
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <motion.section
+          className="py-20 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Charging Infrastructure?</h2>
+          <p className="text-green-300 max-w-2xl mx-auto mb-8">
+            Join the future of sustainable energy with AntPower's advanced charging solutions
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/products">
+              <Button size="lg" className="bg-green-500 hover:bg-green-400 text-green-900">
+                View Products
+                <ChevronRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
+            <Link href="/contact">
+              <Button size="lg" variant="outline" className="border-green-500 text-green-500 hover:bg-green-500/10">
+                Contact Sales
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
+        </motion.section>
       </div>
     </Layout>
   )

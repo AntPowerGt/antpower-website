@@ -1,0 +1,44 @@
+@keyframes glow {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.sunlight-effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(74, 222, 128, 0.15) 0%, rgba(74, 222, 128, 0) 70%);
+  animation: glow 8s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.float-animation {
+  animation: float 6s infinite ease-in-out;
+}
+
+.gradient-bg {
+  background: linear-gradient(to bottom, rgba(5, 38, 18, 0.95) 0%, rgba(5, 38, 18, 0.98) 100%);
+}

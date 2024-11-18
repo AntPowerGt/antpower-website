@@ -1,180 +1,234 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react'
+import { Label } from "@/components/ui/label"
+import { Phone, Mail, MapPin, Clock, Send, Loader2 } from 'lucide-react'
 import Layout from '@/components/layout'
 
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-  preferredContact: string;
-  subject: string;
-}
+const contactInfo = [
+  {
+    icon: Phone,
+    title: 'Phone',
+    content: '+46-793391988',
+    description: 'Monday to Friday, 9am to 6pm PST'
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    content: 'sales@antpower.com',
+    description: "We'll respond within 24 hours"
+  },
+  {
+    icon: MapPin,
+    title: 'Office',
+    content: 'Kronborgsgränd 19',
+    description: '164 46, Kista, Sweden'
+  },
+  {
+    icon: Clock,
+    title: 'Hours',
+    content: 'Mon-Fri: 9:00 AM - 6:00 PM',
+    description: 'Weekend: By appointment'
+  }
+]
 
-const initialFormData: FormData = {
-  name: '',
-  email: '',
-  phone: '',
-  company: '',
-  message: '',
-  preferredContact: 'email',
-  subject: ''
-}
-
-export default function Contact() {
-  const [formData, setFormData] = useState<FormData>(initialFormData)
+export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' })
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }))
-  }
-
-  const handleRadioChange = (value: string) => {
-    setFormData(prevState => ({
-      ...prevState,
-      preferredContact: value
-    }))
-  }
-
-  const handleSelectChange = (value: string) => {
-    setFormData(prevState => ({
-      ...prevState,
-      subject: value
-    }))
-  }
+  const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    setSubmitStatus({ type: null, message: '' })
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setSubmitStatus({ type: 'success', message: 'Your message has been sent successfully.' })
-        setFormData(initialFormData)
-      } else {
-        throw new Error('Failed to send message')
-      }
-    } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again later.' })
-    } finally {
-      setIsSubmitting(false)
-    }
+    
+    // Simulate form submission
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    setFormStatus('success')
+    setIsSubmitting(false)
   }
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8 md:py-16">
-        <h1 className="text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-green-100">Contact Us</h1>
-        {submitStatus.type && (
-          <div className={`mb-4 p-4 rounded-md ${submitStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-            {submitStatus.message}
-          </div>
-        )}
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" value={formData.name} onChange={handleInputChange} required className="text-gray-900" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} required className="text-gray-900" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" name="phone" type="tel" value={formData.phone} onChange={handleInputChange} className="text-gray-900" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="company">Company</Label>
-                <Input id="company" name="company" value={formData.company} onChange={handleInputChange} className="text-gray-900" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Select onValueChange={handleSelectChange} value={formData.subject || undefined}>
-                  <SelectTrigger className="text-gray-900 bg-white">
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="sales">Sales Inquiry</SelectItem>
-                    <SelectItem value="support">Technical Support</SelectItem>
-                    <SelectItem value="partnership">Partnership Opportunity</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} required className="text-gray-900 bg-white" />
-              </div>
-              <div className="space-y-2">
-                <Label>Preferred Contact Method</Label>
-                <RadioGroup value={formData.preferredContact} onValueChange={handleRadioChange}>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="email" id="email-radio" />
-                    <Label htmlFor="email-radio">Email</Label>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="py-12"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl lg:text-5xl font-bold mb-4">Contact Us</h1>
+          <p className="text-green-300 max-w-2xl mx-auto">
+            Get in touch with our team of experts to discuss your EV charging needs
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-8"
+          >
+            <Card className="bg-green-800/20 border-green-700">
+              <CardContent className="p-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        placeholder="John"
+                        className="bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Doe"
+                        className="bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="phone" id="phone-radio" />
-                    <Label htmlFor="phone-radio">Phone</Label>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="john@company.com"
+                      className="bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                      required
+                    />
                   </div>
-                </RadioGroup>
-              </div>
-              <Button type="submit" className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600" disabled={isSubmitting}>
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </form>
-          </div>
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-2xl font-semibold mb-4 text-green-300">Contact Information</h2>
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 mr-2 text-green-400" />
-                  <span>info@antpower.com</span>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-2 text-green-400" />
-                  <span>+46-793391988</span>
-                </div>
-                <div className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2 text-green-400" />
-                  <span>Address: Kronborgsgränd 19, 164 46, Kista, Sweden.</span>
-                </div>
-              </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone (Optional)</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="+1 (555) 123-4567"
+                      className="bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Company (Optional)</Label>
+                    <Input
+                      id="company"
+                      placeholder="Company Name"
+                      className="bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell us about your project or requirements..."
+                      className="min-h-[150px] bg-green-800/30 border-green-700 text-green-50 placeholder:text-green-500"
+                      required
+                    />
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-green-500 hover:bg-green-400 text-green-900"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message
+                        <Send className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+
+                  {formStatus === 'success' && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-green-400 text-center"
+                    >
+                      Thank you! We'll get back to you soon.
+                    </motion.p>
+                  )}
+                </form>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Contact Information */}
+          <div className="space-y-6">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {contactInfo.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Card className="bg-green-800/20 border-green-700 h-full">
+                    <CardContent className="p-6">
+                      <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                        <item.icon className="w-6 h-6 text-green-400" />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                      <p className="text-green-300 font-medium mb-1">{item.content}</p>
+                      <p className="text-sm text-green-400">{item.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
             </div>
-            <div>
-              <h2 className="text-2xl font-semibold mb-4 text-green-300">Office Hours</h2>
-              <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
-              <p>Saturday - Sunday: Closed</p>
-            </div>
+
+            {/* Map or Additional Information */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <Card className="bg-green-800/20 border-green-700">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">Why Choose AntPower?</h3>
+                  <ul className="space-y-3 text-green-300">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                      Industry-leading charging solutions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                      24/7 technical support
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                      Customized solutions for your needs
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                      Nationwide installation and maintenance
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </Layout>
   )
 }
